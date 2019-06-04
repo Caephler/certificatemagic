@@ -15,7 +15,7 @@ const startServer = () => {
   }));
 
   app.use(enforceHttps({
-    port: 8081
+    port: process.env.PORT
   }));
 
   const options = {
@@ -78,7 +78,7 @@ const startServer = () => {
 
   app.use(r.routes());
 
-  const server = https.createServer(options, app.callback()).listen(8081);
+  const server = https.createServer(options, app.callback()).listen(process.env.PORT);
 
   console.log('[Server] Started server.');
   return () => server.close();
