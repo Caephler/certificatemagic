@@ -1,0 +1,19 @@
+{
+  "name": "cmagic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.7.0",
+    "koa-pug": "^3.0.0-2",
+    "koa-router": "^7.4.0",
+    "koa-sslify": "^4.0.3",
+    "koa-views": "^6.2.0",
+    "pug": "^2.0.3"
+  }
+}

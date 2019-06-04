@@ -1,0 +1,34 @@
+doctype html
+html(lang="en")
+  head
+    title=pageTitle
+    link(rel='stylesheet', href='https://unpkg.com/sakura.css/css/sakura.css')
+  body
+    h3 C(ertificate) Magic
+
+    ul
+      li Existing flips
+        ul
+          each val, index in flipMap
+            li
+              a(href=`/flip/${index}`) Flip: #{index}: #{val.status} &nbsp;&nbsp;|&nbsp;&nbsp;
+                a(href=`/flip/${index}/clear`) Clear
+    ul
+      li Flip-flop series - use any status code and interval!
+        ul
+          li
+            a(href='/flip/404/60') Flip: 404 (Interval: 1 min)
+          li
+            a(href='/flip/400/30') Flip: 400 (Interval: 30 sec)
+          li
+            a(href='/flip/403/360') Flip: 403 (Interval: 6 mins)
+      li SSL Renewal
+        ul
+          li
+            a(href='/ssl/1') 1 Day SSL Certificate
+          li
+            a(href='/ssl/29') 29 Day SSL Certificate
+          li
+            a(href='/ssl/31') 31 Day SSL Certificate
+          li
+            a(href='/ssl/365') 1 Year SSL Certificate
