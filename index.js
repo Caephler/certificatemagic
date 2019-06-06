@@ -1,5 +1,5 @@
 const Koa = require('koa');
-const https = require('https');
+const http = require('http');
 const router = require('koa-router');
 const views = require('koa-views');
 const fs = require('fs');
@@ -14,18 +14,19 @@ const startServer = () => {
     extension: 'pug'
   }));
 
-  app.use(enforceHttps({
-    port: process.env.PORT
-  }));
+  const options = {};
+  // app.use(enforceHttps({
+  //   port: 8081
+  // }));
 
-  const options = {
-    key: fs.readFileSync('./localhost.key'),
-    cert: fs.readFileSync('./localhost.crt')
-  };
+  // const options = {
+  //   key: fs.readFileSync('./localhost.key'),
+  //   cert: fs.readFileSync('./localhost.crt')
+  // };
 
   const r = router();
 
-  r.get('/flip/:code/:interval', (ctx, next) => {
+  r.get('/flip/:code/:interval', async (ctx, next) => {
     const internalCode = `${ctx.params.code}/${ctx.params.interval}`;
     if (!doesFlipExist(internalCode)) {
       const rawInterval = parseInt(ctx.params.interval);
@@ -35,8 +36,10 @@ const startServer = () => {
 
     if (getIsFlipped(internalCode)) {
       ctx.throw(parseInt(ctx.params.code));
+      await ctx.render('error', { pageTitle: `Flip ${ctx.params.code}`, errorCode: ctx.params.code });
     } else {
       ctx.status = 200;
+      await ctx.render('ok', { pageTitle: 'Flip 200'});
     }
   });
 
@@ -78,12 +81,11 @@ const startServer = () => {
 
   app.use(r.routes());
 
-  const server = https.createServer(options, app.callback()).listen(process.env.PORT);
+  const port = process.env.PORT || 8081;
+  const server = http.createServer(options, app.callback()).listen(port);
 
-  console.log('[Server] Started server.');
+  console.log(`[Server] Started server on port ${port}.`);
   return () => server.close();
 }
 
-generateNewCert(100).then(() => {
-  startServer();
-});
+startServer();
